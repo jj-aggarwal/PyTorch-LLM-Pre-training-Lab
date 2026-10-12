@@ -1,0 +1,37 @@
+# Tiny configuration: trains in well under a minute on an ordinary CPU.
+model:
+  vocab_size: null        # filled in from the tokenizer
+  block_size: 32
+  n_layer: 2
+  n_head: 2
+  d_model: 32
+  dropout: 0.0
+  bias: true
+  attention_impl: manual
+
+data:
+  source: synthetic
+  train_fraction: 0.9
+  synthetic_chars: 20000
+  synthetic_seed: 1234
+
+train:
+  seed: 1337
+  device: auto
+  precision: fp32
+  batch_size: 16
+  grad_accum_steps: 1
+  max_steps: 200
+  lr: 0.003
+  min_lr: 0.0003
+  warmup_steps: 20
+  scheduler: cosine
+  weight_decay: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  grad_clip: 1.0
+  eval_interval: 50
+  eval_batches: 8
+  log_interval: 10
+  save_interval: 0        # 0 = only save at the end
+  out_dir: runs/tiny_cpu

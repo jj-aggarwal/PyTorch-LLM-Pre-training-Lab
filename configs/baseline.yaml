@@ -1,0 +1,40 @@
+# Baseline for optimization experiments: simple, unoptimized settings
+# (manual attention, fp32, no gradient accumulation). Still small enough for a CPU,
+# but larger than tiny_cpu so throughput differences are easier to measure.
+model:
+  vocab_size: null
+  block_size: 64
+  n_layer: 4
+  n_head: 4
+  d_model: 128
+  dropout: 0.0
+  bias: true
+  attention_impl: manual
+
+data:
+  source: synthetic       # switch to `file` + `path:` to use your own permitted text file
+  path: null
+  train_fraction: 0.9
+  synthetic_chars: 200000
+  synthetic_seed: 1234
+
+train:
+  seed: 1337
+  device: auto
+  precision: fp32
+  batch_size: 16
+  grad_accum_steps: 1
+  max_steps: 100
+  lr: 0.001
+  min_lr: 0.0001
+  warmup_steps: 10
+  scheduler: cosine
+  weight_decay: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  grad_clip: 1.0
+  eval_interval: 25
+  eval_batches: 8
+  log_interval: 10
+  save_interval: 0
+  out_dir: runs/baseline
