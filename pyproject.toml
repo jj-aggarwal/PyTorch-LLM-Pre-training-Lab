@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pytorch-llm-pretraining-lab"
+version = "0.1.0"
+description = "A small, readable GPT pre-training lab with a reproducible optimization-experiment harness."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "torch>=2.1",
+    "numpy",
+    "pyyaml>=6",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff>=0.4"]
+bpe = ["tiktoken"]
+
+[project.scripts]
+pretrain-train = "pretraining_lab.train:main"
+pretrain-evaluate = "pretraining_lab.evaluate:main"
+pretrain-generate = "pretraining_lab.generate:main"
+pretrain-benchmark = "pretraining_lab.benchmark:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "W"]
